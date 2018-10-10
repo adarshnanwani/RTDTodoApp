@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, Button } from 'react-native';
+import { View, Text, Modal, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import TodoForm from '../../components/TodoForm/TodoForm';
 import TodoList from '../../components/TodoList/TodoList';
+
+import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
 class TodoApp extends Component {
     state = {
@@ -69,19 +71,11 @@ class TodoApp extends Component {
                 <TodoList
                     todos={this.state.todos}
                     itemPressed={this.itemSelectedHandler} />
-                <Modal
-                    animationType="slide"
-                    transparent={false}
-                    visible={this.state.selectedTodo !== null}
-                    onRequestClose={this.closeModalHandler}>
-                    <View style={{ flexDirection: "row", justifyContent: 'center' }}>
-                        {this.state.selectedTodo ? <Text style={{ fontSize: 20, fontWeight: "bold" }}>{this.state.selectedTodo.data}</Text> : null}
-                    </View>
-                    <View style={{ margin: 10 }}>
-                        <Button title="Delete" color="red" onPress={this.deleteSelectedTodoHandler}/>
-                        <Button title="Cancel" onPress={this.closeModalHandler} />
-                    </View>
-                </Modal>
+                <TodoDetail
+                    selectedTodo={this.state.selectedTodo}
+                    onCloseModal={this.closeModalHandler}
+                    onDelete={this.deleteSelectedTodoHandler}
+                />
             </View>
         );
     }
