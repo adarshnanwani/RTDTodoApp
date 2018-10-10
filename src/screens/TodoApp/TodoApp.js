@@ -1,60 +1,31 @@
 import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import TodoForm from '../../components/TodoForm/TodoForm';
 import TodoList from '../../components/TodoList/TodoList';
-
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
+import { setTodo, addTodo, deleteTodo, selectTodo, cancelTodo } from '../../store/actions/index';
 
 class TodoApp extends Component {
-    state = {
-        todo: '',
-        todos: [],
-        selectedTodo: null
-    };
 
     inputChangeHandler = (val) => {
-        this.setState({
-            todo: val
-        });
+        this.props.onSetTodo(val);
     };
 
     addTodoHandler = () => {
-        const val = this.state.todo.trim();
-        const id = (parseInt(Math.random() * 10000)).toString().trim();
-        if (val !== '') {
-            this.setState(prevState => {
-                return {
-                    todo: '',
-                    todos: [...prevState.todos, { data: val, id: id }]
-                }
-            });
-        }
-        console.log(this.state);
+        this.props.onAddTodo();
     };
 
     closeModalHandler = () => {
-        this.setState({
-            selectedTodo: null
-        });
+        this.props.onCancelTodo();
     };
 
     itemSelectedHandler = (id) => {
-        console.log(id);
-        const todo = [...this.state.todos].filter(todo => todo.id === id)[0];
-        this.setState({
-            selectedTodo: todo
-        })
+        this.props.onSelectTodo(id);
     }
 
     deleteSelectedTodoHandler = () => {
-        const allTodos = [...this.state.todos];
-        this.setState(prevState => {
-            return {
-                todos: allTodos.filter(todo => todo.id !== prevState.selectedTodo.id),
-                selectedTodo: null
-            }
-        });
-
+        this.props.onDeleteTodo();
     }
 
     render() {
@@ -66,13 +37,13 @@ class TodoApp extends Component {
                 <TodoForm
                     onInputChange={this.inputChangeHandler}
                     onAddPress={this.addTodoHandler}
-                    inputValue={this.state.todo}
+                    inputValue={this.props.todo}
                 />
                 <TodoList
-                    todos={this.state.todos}
+                    todos={this.props.todos}
                     itemPressed={this.itemSelectedHandler} />
                 <TodoDetail
-                    selectedTodo={this.state.selectedTodo}
+                    selectedTodo={this.props.selectedTodo}
                     onCloseModal={this.closeModalHandler}
                     onDelete={this.deleteSelectedTodoHandler}
                 />
@@ -89,4 +60,22 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TodoApp;
+const mapStateToProps = state => {
+    return {
+        todo: state.TodoApp.todo,
+        todos: state.TodoApp.todos,
+        selectedTodo: state.TodoApp.selectedTodo
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSetTodo: (val) => dispatch(setTodo(val)),
+        onAddTodo: () => dispatch(addTodo()),
+        onDeleteTodo: () => dispatch(deleteTodo()),
+        onSelectTodo: (id) => dispatch(selectTodo(id)),
+        onCancelTodo: () => dispatch(cancelTodo())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);
