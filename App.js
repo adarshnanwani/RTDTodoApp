@@ -5,18 +5,22 @@
  */
 
 import React, { Component } from 'react';
+import { Navigation } from 'react-native-navigation';
 import { StyleSheet, View } from 'react-native';
-import { Provider } from 'react-redux';
-import TodoApp from './src/screens/TodoApp/TodoApp';
-import configureStore from './src/store/configureStore';
+import LoginScreen from './src/screens/Login/Login';
+
+import AddTodo from './src/screens/AddTodo/AddTodo';
+import TodoList from './src/screens/TodoList/TodoList';
+
+Navigation.registerComponent('todoapp.AddTodoScreen', () => AddTodo);
+Navigation.registerComponent('todoapp.TodoListScreen', () => TodoList);
+
 export default class App extends Component {
   render() {
-    const store = configureStore();
+
     return (
       <View style={styles.container}>
-        <Provider store={store}>
-          <TodoApp />
-        </Provider>
+        <LoginScreen />
       </View>
     );
   }
@@ -24,9 +28,6 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flex: 1
   }
 });
