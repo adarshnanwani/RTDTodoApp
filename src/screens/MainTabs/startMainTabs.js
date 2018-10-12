@@ -3,10 +3,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const startMainTabs = () => {
     Promise.all([
-        Icon.getImageSource("ios-add-circle",30),
-        Icon.getImageSource("ios-list",30),
-        Icon.getImageSource("ios-menu",30)
-    ]).then(imgs=>{
+        Icon.getImageSource("ios-add-circle", 30),
+        Icon.getImageSource("ios-list", 30),
+        Icon.getImageSource("ios-menu", 30)
+    ]).then(imgs => {
         Navigation.setRoot({
             root: {
                 bottomTabs: {
@@ -25,22 +25,21 @@ const startMainTabs = () => {
                                     text: 'Add Todo Tab',
                                     icon: imgs[0],
                                     testID: 'FIRST_TAB_BAR_BUTTON',
-                                    selectedIconColor:'orange'
+                                    selectedIconColor: 'orange'
                                 },
-                                topBar:{
+                                topBar: {
                                     title: {
                                         text: "Add New Todo"
                                     },
-                                    leftButtons:[
+                                    leftButtons: [
                                         {
-                                            icon:imgs[2]
+                                            icon: imgs[2]
                                         }
                                     ]
+                                }
                             }
-                            
                         }
-                    }
-                },
+                    },
                     {
                         stack: {
                             children: [{
@@ -55,15 +54,15 @@ const startMainTabs = () => {
                                 bottomTab: {
                                     icon: imgs[1],
                                     testID: 'SECOND_TAB_BAR_BUTTON',
-                                    selectedIconColor:'orange'
+                                    selectedIconColor: 'orange'
                                 },
-                                topBar:{
+                                topBar: {
                                     title: {
                                         text: "Todo List"
                                     },
-                                    leftButtons:[
+                                    leftButtons: [
                                         {
-                                            icon:imgs[2]
+                                            icon: imgs[2]
                                         }
                                     ]
                                 }
@@ -74,7 +73,7 @@ const startMainTabs = () => {
             }
         });
     })
-    
+
 }
 
 export default startMainTabs;

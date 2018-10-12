@@ -1,8 +1,12 @@
 import { ADD_TODO, DELETE_TODO, CANCEL_TODO, SELECT_TODO, SET_TODO } from '../actions/actionTypes';
 
 const initialState = {
-    todo: '',
-    todos: [],
+    todo: 'sddf',
+    todos: [
+        { data: 'valds', id: '2344' },
+        { data: 'vasdl', id: '234342' },
+        { data: 'vasdal', id: '4444' }
+    ],
     selectedTodo: null
 };
 

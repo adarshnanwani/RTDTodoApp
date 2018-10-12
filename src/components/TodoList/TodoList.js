@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, FlatList, Text, StyleSheet } from 'react-native';
 import ListItem from './ListItem/ListItem';
+import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
 const todoList = (props) => (
     <View style={styles.listContainer}>
@@ -17,7 +18,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'stretch',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderColor:"red"
     }
 });
 
