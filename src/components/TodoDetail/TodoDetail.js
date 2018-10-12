@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Button, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Button, Text, TouchableOpacity, View, Image } from 'react-native';
+import placeholderImage from '../../assets/todo.jpg';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const todoDetail = props => {
@@ -9,12 +10,15 @@ const todoDetail = props => {
             transparent={false}
             visible={props.selectedTodo !== null}
             onRequestClose={props.onCloseModal}>
-            <View style={{ flexDirection: "row", justifyContent: 'center' }}>
-                {props.selectedTodo ? <Text style={{ fontSize: 20, fontWeight: "bold" }}>{props.selectedTodo.data}</Text> : null}
+            <View style={{ alignItems: 'center' }}>
+                <Image source={placeholderImage} />
             </View>
-            <View style={{ margin: 10, alignItems:'center' }}>
+            <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+                {props.selectedTodo ? <Text style={{ fontSize: 30, fontWeight: "bold" }}>{props.selectedTodo.data}</Text> : null}
+            </View>
+            <View style={{ margin: 10, alignItems: 'center' }}>
                 <TouchableOpacity onPress={props.onDelete}>
-                    <Icon size={20} name="ios-trash" color="red"/>
+                    <Icon size={40} name="ios-trash" color="red" />
                 </TouchableOpacity>
                 <Button title="Cancel" onPress={props.onCloseModal} />
             </View>
