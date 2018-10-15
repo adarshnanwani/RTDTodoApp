@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, ImageBackground, Platform, Switch } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ImageBackground, Switch } from 'react-native';
 import DefaultTextInput from '../../components/UI/DefaultTextInput/DefaultTextInput';
 import DefaultButton from '../../components/UI/DefaultButton/DefaultButton';
 import validate from '../../utility/validation';
@@ -101,60 +101,70 @@ class Login extends Component {
     }
 
     render() {
+        const authModeSelectionSection = (
+            <View style={styles.authModeContainer}>
+                <Text style={styles.authModeText}>Login</Text>
+                <Switch
+                    thumbTintColor='#fff'
+                    onValueChange={this.changeAuthMode}
+                    value={this.state.isRegister}></Switch>
+                <Text style={styles.authModeText}>Register</Text>
+            </View>
+        );
+
+        const passwordSection = (
+            <View
+                style={this.state.viewMode === 'portrait'
+                    ? null
+                    : styles.landscapePasswordWrapper}>
+                <DefaultTextInput
+                    placeholder="Enter Password"
+                    value={this.state.controls.password.value}
+                    valid={this.state.controls.password.touched ? this.state.controls.password.valid : true}
+                    onChangeText={(val) => this.updateValue(val, 'password')}
+                    style={this.state.viewMode === 'portrait' || !this.state.isRegister
+                        ? styles.portraitPasswordInput
+                        : styles.landscapePasswordInput}
+                />
+                {this.state.isRegister ?
+                    <DefaultTextInput
+                        placeholder="Confirm Password"
+                        value={this.state.controls.confirmPassword.value}
+                        valid={this.state.controls.confirmPassword.touched ? this.state.controls.confirmPassword.valid : true}
+                        onChangeText={(val) => this.updateValue(val, 'confirmPassword')}
+                        style={this.state.viewMode === 'portrait'
+                            ? styles.portraitPasswordInput
+                            : styles.landscapePasswordInput}
+                    /> : null}
+            </View>
+        );
+
+        const submitBtnDisabledState = !(this.state.controls.email.valid &&
+            this.state.controls.password.valid &&
+            (this.state.isRegister ? this.state.controls.confirmPassword.valid : true));
+
+        const submitBtnOnPressGenerator = this.state.controls.email.valid &&
+            this.state.controls.password.valid && (this.state.isRegister ? this.state.controls.confirmPassword.valid : true)
+            ?
+            this.loginHandler : null;
+
         return (
             <ImageBackground source={imageBackground} style={{ flex: 1, width: "100%" }}>
                 <View style={styles.loginContainer}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                        <Text style={{ color: '#fff', fontWeight: 'bold', marginRight: 10, marginLeft: 10 }}>Login</Text>
-                        <Switch
-                            thumbTintColor='#fff'
-                            onValueChange={this.changeAuthMode}
-                            value={this.state.isRegister}></Switch>
-                        <Text style={{ color: '#fff', fontWeight: 'bold', marginRight: 10, marginLeft: 10 }}>Register</Text>
-                    </View>
+                    {authModeSelectionSection}
                     <View style={styles.textInputContainer}>
                         <DefaultTextInput
                             placeholder="Your Email"
                             value={this.state.controls.email.value}
                             valid={this.state.controls.email.touched ? this.state.controls.email.valid : true}
                             onChangeText={(val) => this.updateValue(val, 'email')} />
-                        <View
-                            style={this.state.viewMode === 'portrait'
-                                ? null
-                                : styles.landscapePasswordWrapper}>
-                            <DefaultTextInput
-                                placeholder="Enter Password"
-                                value={this.state.controls.password.value}
-                                valid={this.state.controls.password.touched ? this.state.controls.password.valid : true}
-                                onChangeText={(val) => this.updateValue(val, 'password')}
-                                style={this.state.viewMode === 'portrait'||!this.state.isRegister
-                                    ? styles.portraitPasswordInput
-                                    : styles.landscapePasswordInput}
-                            />
-                            {this.state.isRegister ?
-                                <DefaultTextInput
-                                    placeholder="Confirm Password"
-                                    value={this.state.controls.confirmPassword.value}
-                                    valid={this.state.controls.confirmPassword.touched ? this.state.controls.confirmPassword.valid : true}
-                                    onChangeText={(val) => this.updateValue(val, 'confirmPassword')}
-                                    style={this.state.viewMode === 'portrait'
-                                        ? styles.portraitPasswordInput
-                                        : styles.landscapePasswordInput}
-                                /> : null}
-                        </View>
+                        {passwordSection}
                     </View>
                     <DefaultButton
-                        disabled={!(this.state.controls.email.valid &&
-                            this.state.controls.password.valid &&
-                            (this.state.isRegister ? this.state.controls.confirmPassword.valid : true))}
-                        onPress={this.state.controls.email.valid &&
-                            this.state.controls.password.valid && (this.state.isRegister ? this.state.controls.confirmPassword.valid : true)
-                            ?
-                            this.loginHandler : null}
-                    >
+                        disabled={submitBtnDisabledState}
+                        onPress={submitBtnOnPressGenerator}>
                         <Text>Submit</Text>
                     </DefaultButton>
-
                 </View>
             </ImageBackground>
         );
@@ -162,6 +172,16 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+    authModeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+    authModeText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        marginRight: 10,
+        marginLeft: 10
+    },
     loginContainer: {
         flex: 1,
         justifyContent: 'center',
