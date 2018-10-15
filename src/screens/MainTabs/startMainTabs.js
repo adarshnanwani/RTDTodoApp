@@ -1,11 +1,12 @@
 import { Navigation } from 'react-native-navigation';
+import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const startMainTabs = () => {
     Promise.all([
-        Icon.getImageSource("ios-add-circle", 30),
-        Icon.getImageSource("ios-list", 30),
-        Icon.getImageSource("ios-menu", 30)
+        Icon.getImageSource(Platform.OS==='android'?'md-add-circle':"ios-add-circle", 30),
+        Icon.getImageSource(Platform.OS==='android'?'md-list':"ios-list", 30),
+        Icon.getImageSource(Platform.OS==='android'?'md-menu':"ios-menu", 30)
     ]).then(imgs => {
         Navigation.setRoot({
             root: {

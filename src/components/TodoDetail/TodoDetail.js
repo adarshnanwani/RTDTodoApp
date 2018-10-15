@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Text, TouchableOpacity, View, Image } from 'react-native';
+import { Modal, Button, Text, TouchableOpacity, View, Image, Platform } from 'react-native';
 import placeholderImage from '../../assets/todo.jpg';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -18,7 +18,7 @@ const todoDetail = props => {
             </View>
             <View style={{ margin: 10, alignItems: 'center' }}>
                 <TouchableOpacity onPress={props.onDelete}>
-                    <Icon size={40} name="ios-trash" color="red" />
+                    <Icon size={40} name={Platform.OS === 'android'? 'md-trash':"ios-trash"} color="red" />
                 </TouchableOpacity>
                 <Button title="Cancel" onPress={props.onCloseModal} />
             </View>
