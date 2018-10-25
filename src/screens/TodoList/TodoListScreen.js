@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import TodoList from '../../components/TodoList/TodoList';
-import { selectTodo, cancelTodo, deleteTodo } from '../../store/actions/index';
+import { selectTodo, cancelTodo, deleteTodo, getTodo } from '../../store/actions/index';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
 class TodoListScreen extends Component {
+
+    componentDidMount(){
+        this.props.onGetTodo();
+    }
+
     render() {
         return (
             <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -32,7 +37,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onSelectTodo: (id) => dispatch(selectTodo(id)),
         onCancelTodo: () => dispatch(cancelTodo()),
-        onDeleteTodo: () => dispatch(deleteTodo())
+        onDeleteTodo: () => dispatch(deleteTodo()),
+        onGetTodo: () => dispatch(getTodo())
     }
 }
 

@@ -30,6 +30,12 @@ build/
 local.properties
 *.iml
 
+# firebase
+#
+functions/
+.firebaserc
+firebase.json
+
 # node.js
 #
 node_modules/

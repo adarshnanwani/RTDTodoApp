@@ -1,6 +1,7 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import todoReducer from './reducers/todos';
-import { logger } from 'redux-logger';
+import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import todoReducer from "./reducers/todos";
+import thunk from "redux-thunk";
+import { logger } from "redux-logger";
 
 const rootReducer = combineReducers({
     TodoApp: todoReducer
@@ -11,10 +12,11 @@ if (__DEV__) {
     composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 
-
 const configureStore = () => {
-    return createStore(rootReducer, composeEnhancer(applyMiddleware(logger)));
-}
-
+    return createStore(
+        rootReducer,
+        composeEnhancer(applyMiddleware(thunk, logger))
+    );
+};
 
 export default configureStore;

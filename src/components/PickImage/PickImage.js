@@ -20,9 +20,12 @@ class PickImage extends Component {
                 } else if (response.error) {
                     console.log("ImagePicker Error: ", response.error);
                 } else {
-                    const source = { uri: response.uri, base64: response.data };
+                    const source = {
+                        uri: response.uri,
+                        base64: response.data
+                    };
 
-                    this.props.onImageSelected(source);
+                    this.props.onImageSelected({ base64: source.base64 });
                     this.setState({
                         pickedImage: source
                     });
